@@ -1,6 +1,6 @@
 # DAY 5 HOMEWORK
 #
-# Name:
+# Name:Sotaro Matsui
 
 # NOTE: In the text below, backticks ``
 # are used to indicate code. For example, `library(tidyverse)`
@@ -13,19 +13,28 @@
 #
 # Join the `planes` dataframe to the `flights` dataframe, keeping all rows in
 # `flights`. Save the result as answer_1
+answer_1<-flights|>
+  left_join(planes,join_by(tailnum))
 #
 # HINT: the `tailnum` column uniquely identifies each airplane.
 
 # Q2. Use answer_1 to count the number of flights made by each manufacturer,
 # then sort the results so the manufacturer with the most flights is at the top.
 # Save the result as answer_2
-#
+
+answer_2<-answer_1|>
+  group_by(manufacturer)|>
+  count()
+  
 # HINT: use `count()`
 
 # Q3. Does every flight in the `flights` dataframe have a corresponding
 # airplane in `planes`?
 #
 # Save your answer as a logical vector (either TRUE or FALSE) to answer_3
+# as I can see it on answer_1, flght data in the "flights" dataframe have a common key(tailnum),so it is true.
+answer_3<-c(TRUE)
+
 
 # Q4. The `nycflights13` package includes a dataframe called `airlines` that
 # includes the name of each airline and its corresponding carrier code.
@@ -34,10 +43,18 @@
 # Join the `airlines` dataframe to the `flights` dataframe, keeping all rows in
 # `flights`. Save the result as answer_4
 
+answer_4<-flights|>
+  left_join(airlines,join_by(carrier))
+
 # Q5. Use answer_4 to find the average arrival delay for each airline.
 # Exclude missing values from your calculation.
 # Save the result as answer_5
 #
+
+answer_5<-answer_4|>
+  group_by(flight)|>
+  summarise(mean(arr_delay),na.rm=TRUE)
+  
 # HINT: remember that you can use `group_by()` and `summarize()` together to
 # calculate summary statistics for each group in the data.
 #
